@@ -1,23 +1,24 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 import socket
 
+# Open a raw socket listening on all ip addresses
+sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
+sock.bind(('', 1))
 
-#Escuta o Ping
-class EscutaPing:
+try :
+   while True :
+      # receive data
+      data = sock.recv(1024)
 
-    def __init__(selfself):
-        print "Classe EscutaPing"
+      # ip header is the first 20 bytes
+      ip_header = data[:20]
 
-    def escuta(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
-        s.setsockopt(socket.SOL_IP, socket.IP_HDRINCL, 1)
+      # ip source address is 4 bytes and is second last field (dest addr is last)
+      ips = ip_header[-8:-4]
 
-        while 1:
-            data, addr = s.recvfrom(1508)
-            print "Ping de %r" % (addr[0], )
-            print "Dados: %r" % (data)
+      # convert to dotted decimal format
+      source = '%i.%i.%i.%i' % (ord(ips[0]), ord(ips[1]), ord(ips[2]), ord(ips[3]))
 
-
-
-#l = EscutaPing()
-#l.escuta()
+      print 'Ping from %s' % source
+except KeyboardInterrupt :
+   print
