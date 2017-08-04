@@ -19,6 +19,5 @@ class EscutaPing:
 
 
 
-
 #l = EscutaPing()
 #l.escuta()
