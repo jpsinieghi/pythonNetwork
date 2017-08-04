@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import socket
 
-
 #Escuta o Ping
 class EscutaPing:
 
@@ -15,7 +14,7 @@ class EscutaPing:
         while 1:
             data, addr = s.recvfrom(1508)
             print "Ping de %r" % (addr[0], )
-            print "Dados: %r" % (data)
+            #print "Dados: %r" % (data)
 
 if __name__ == '__main__':
     l = EscutaPing()
